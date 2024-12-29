@@ -1,0 +1,13 @@
+There's no single perfect CSS-only solution to guarantee correct calculation in all cases. The calculation order dependency in CSS is inherent. However, to mitigate this issue you could explore these approaches:
+
+1. **Avoid the circular dependency:** If possible, restructure your CSS and HTML to remove the circular dependency where the parent's height depends on the child's calculated height.  This often involves making the parent's height independent.
+2. **Javascript Solution:** Use JavaScript to explicitly calculate the height after the parent's dimensions are fully determined. This allows you to get the parent's final height, perform the calculation and set the child's height accurately.  This is generally the most robust solution.
+
+```javascript
+const div = document.querySelector('div');
+const parentHeight = div.parentElement.offsetHeight;
+div.style.height = `${parentHeight - 10}px`;
+```
+3. **Minimum Height:** If the child element has content, using `min-height` instead of `height` might work well enough. It helps avoid a height that's too small due to the delayed `calc()` evaluation, but may still result in a larger-than-expected height depending on the content.
+
+The choice of solution depends greatly on the complexity of your layout and the specific requirements.  The Javascript method provides the most reliable outcome.
