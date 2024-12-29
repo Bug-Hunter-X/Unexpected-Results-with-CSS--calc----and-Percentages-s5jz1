@@ -1,0 +1,10 @@
+The CSS property `calc()` is used to perform calculations. However, there is a little-known quirk: if you use `calc()` with percentages, the calculation is relative to the element's containing block, but only *after* the containing block's dimensions have been established.  This can lead to unexpected results if the calculation depends on the element's own dimensions.  Consider this example:
+
+```css
+div {
+  width: 50%;
+  height: calc(100% - 10px);
+}
+```
+
+Here, the height is calculated as 100% of the parent's height minus 10px.  However, if the parent's height is determined *after* the div's height (due to things like min-height or content-driven heights), the calculation can become incorrect.  The `calc()` function will use the parent's initial height (before any height calculations of the child), possibly leading to a height that's too small or doesn't account for the `10px` subtraction correctly. 
